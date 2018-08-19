@@ -4,6 +4,7 @@ node {
     }
     stage('Deploy') {
         echo 'Deploying...'
+        ./deploy.sh
     }
     stage('Test') {
         echo 'Testing...'
