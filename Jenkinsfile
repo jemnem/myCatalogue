@@ -3,7 +3,7 @@ node {
         echo 'Building....'
     }
     stage('Deploy') {
-        /home/test/myCatalogue/deploy.sh
+        sh ./deploy.sh
     }
     stage('Test') {
         echo 'Testing...'
