@@ -1,6 +1,6 @@
 node {
-    stage('Get the codes') {
-       echo 'getting the codes'
+    stage('Get the code') {
+       echo 'getting the code'
     }
     stage('Deploy') {
         echo 'Deploying...'
