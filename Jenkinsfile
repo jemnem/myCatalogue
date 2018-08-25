@@ -1,6 +1,6 @@
 node {
     stage('Get the code') {
-        sh 'wget -c https://github.com/jemnem/myCatalogue/archive/master.zip -o /home/test/master.zip'
+        sh 'wget -c -t0 https://github.com/jemnem/myCatalogue/archive/master.zip -o /home/test/master.zip'
 
     }
     stage('Deploy') {
