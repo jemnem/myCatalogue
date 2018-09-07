@@ -1,4 +1,4 @@
-CREATE USER IF NOT EXISTS 'catalogue_user' IDENTIFIED BY 'Rdis2fun';
+CREATE USER IF NOT EXISTS 'catalogue_user' IDENTIFIED BY 'default_password';
 
 GRANT ALL ON socksdb.* TO 'catalogue_user';
 
