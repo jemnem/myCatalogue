@@ -1,0 +1,50 @@
+{
+	"info": {
+		"_postman_id": "384609f4-fda7-43ed-9a6b-f41ce9bcaa00",
+		"name": "catalogue",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "check health",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "672b6537-ad57-497b-99c3-a8419179dc49",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"check the health\",function(){",
+							"    var jsonData=pm.response.json();",
+							"    pm.response.to.have.status(200);",
+							"    pm.expect(jsonData[0]).to.eql(\"OK\");",
+							"    pm.expect(jsonData[1]).to.eql(\"OK\");",
+							"})",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://10.30.170.181:9080/health",
+					"protocol": "http",
+					"host": [
+						"10",
+						"30",
+						"170",
+						"181"
+					],
+					"port": "9080",
+					"path": [
+						"health"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
