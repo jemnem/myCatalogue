@@ -14,9 +14,8 @@ node ('api-test') {
         try {
                 sh 'docker run -v ${PWD}/test:/etc/newman -t postman/newman_ubuntu1404 run catalogue.postman_collection.json -e catalogue.postman_environment.json'
                 }
-                catch (exc) {
-                    echo 'test failed!'
-                    throw
+                catch (e) {
+                    echo 'rollback the service to the last good one'
                 }
 
     }
