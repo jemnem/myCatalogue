@@ -12,7 +12,6 @@ node ('api-test') {
         echo ' start testing...'
         sh 'docker pull postman/newman_ubuntu1404'
         sh 'docker run -v ${PWD}/test:/etc/newman -t postman/newman_ubuntu1404 run catalogue.postman_collection.json -e catalogue.postman_environment.json'
-'
     }
 }
 
