@@ -1,7 +1,8 @@
 {
 	"info": {
-		"_postman_id": "aedc0bf2-df5f-489b-b76c-4d00f9b01e15",
 		"name": "catalogue",
+		"_postman_id": "9db46ffa-ccc3-4f49-a65e-e9b3d8c01b5c",
+		"description": "",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -11,7 +12,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "88d57be2-2819-48eb-a369-0de1b1181eb5",
 						"type": "text/javascript",
 						"exec": [
 							"var expect_services = [",
@@ -60,6 +60,146 @@
 						"health"
 					]
 				}
+			},
+			"response": []
+		},
+		{
+			"name": "Cata_get",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://{{ip}}:{{port}}/catalogue",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"catalogue"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Cata_get_id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"the catalogue name is correct.\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.name).to.eql(\"Holy\");",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://{{ip}}:{{port}}/catalogue/03fef6ac-1896-4ce8-bd69-b798f85c6e0b",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"catalogue",
+						"03fef6ac-1896-4ce8-bd69-b798f85c6e0b"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Cata_get_size",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"the catalogue total is 10.\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.size).to.eql(10);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://{{ip}}:{{port}}/catalogue/size",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"catalogue",
+						"size"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Cata_get_tags",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"the tags includes brown.\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"brown\");",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://{{ip}}:{{port}}/tags",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"tags"
+					]
+				},
+				"description": ""
 			},
 			"response": []
 		}
