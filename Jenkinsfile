@@ -9,7 +9,7 @@ node ('api-test') {
         sh 'docker pull python'
         sh 'docker run -v ${PWD}/test:/usr/src/test  -w /usr/src/test python python sqlGenerator.py'
         sh 'cp ${PWD}/test/data/dump1.sql ${PWD}/docker/catalogue-db/data/'
-        sh 'docker-compose build --no-cache'
+        sh 'docker-compose build'
         sh 'docker-compose up -d'
         sleep 120
     }
