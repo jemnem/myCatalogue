@@ -20,7 +20,7 @@ for tag in temp_tags:
     if tag not in tags:
         tags.append(tag)
 for tag in tags:
-    fp.write("INSERT INTO tag VALUES (\"" + tag + "\");" + '\n')
+    fp.write("INSERT INTO tag(name) VALUES (\"" + tag + "\");" + '\n')
 for sock in data:
     sid=sock['id']
     for tag in sock['tag']:
