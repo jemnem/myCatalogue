@@ -11,7 +11,7 @@ node ('api-test') {
         sh 'cp ${PWD}/test/data/dump1.sql ${PWD}/docker/catalogue-db/data/'
         sh 'docker-compose build --no-cache'
         sh 'docker-compose up -d'
-        sleep 30
+        sleep 300
     }
     stage('Test') {
         echo ' start testing...'
