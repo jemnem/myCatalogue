@@ -10,6 +10,9 @@ node ('api-test') {
     }
     stage('Test') {
         echo ' start testing...'
+        sh 'docker pull python'
+        sh 'docker run -v ${PWD}/test:/usr/src/test  -w /usr/src/test python python sqlGenerator.py'
+        sh 'cp ${PWD}/test/data/dump1.sql ${PWD}/docker/catalogue-db/data/'
         sh 'docker pull postman/newman_ubuntu1404'
         try {
             sh 'docker run -v ${PWD}/test:/etc/newman -t postman/newman_ubuntu1404 run catalogue.postman_collection.json -e catalogue.postman_environment.json --color off'
