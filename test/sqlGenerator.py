@@ -3,7 +3,7 @@ tags = []
 infile = open('data/sock.json', 'r')
 data = json.load(infile, encoding='UTF-8')
 infile.close()
-fp = open("../docker/catalogue-db/data/dump1.sql", 'w')
+fp = open("data/dump1.sql", 'w')
 fp.truncate()
 temp_tags = []
 for sock in data:
