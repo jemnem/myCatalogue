@@ -28,9 +28,5 @@ CREATE TABLE IF NOT EXISTS sock_tag (
 		REFERENCES tag(tag_id)
 );
 
-truncate table sock_tag;
-truncate table tag;
-truncate table sock;
-
 
 

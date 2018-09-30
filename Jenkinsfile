@@ -5,6 +5,7 @@ node ('api-test') {
     stage('Deploy') {
         echo 'start deploying...'
         sh 'docker-compose stop'
+        sh 'docker-compose rm -f'
         sh 'docker pull python'
         sh 'docker run -v ${PWD}/test:/usr/src/test  -w /usr/src/test python python sqlGenerator.py'
         sh 'cp ${PWD}/test/data/dump1.sql ${PWD}/docker/catalogue-db/data/'
