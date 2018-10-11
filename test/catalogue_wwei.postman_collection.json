@@ -1,0 +1,239 @@
+{
+	"info": {
+		"_postman_id": "384609f4-fda7-43ed-9a6b-f41ce9bcaa00",
+		"name": "catalogue_wwei",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "check health: /health",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "f3650eb0-2ad9-46c0-93cc-2013a1ffcf87",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"check the health\",function(){",
+							"    var jsonData=pm.response.json();",
+							"    pm.expect(jsonData.health[0].status).to.eql(\"OK\");",
+							"    pm.expect(jsonData.health[1].status).to.eql(\"OK\");",
+							"    ",
+							"})",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://{{ip}}:{{port}}/health",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"health"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "check the szie: /catalogue/size",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "eeb7fdc6-1747-46f5-8dae-3c7c1ab27298",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"check the tags array\",function(){",
+							"    var jsonData=pm.response.json();",
+							"    pm.expect(jsonData.size).to.eql(10); ",
+							"    pm.expect(jsonData.err).to.eql(null);",
+							"    pm.globals.unset(\"g_size\");",
+							"    pm.globals.set(\"g_size\",jsonData.size)",
+							"})"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://{{ip}}:{{port}}/catalogue/size",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"catalogue",
+						"size"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "check catalogue: /catalogue",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5a34f3ce-0f58-40c8-ad9e-822851e21a27",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"check the catalouge array lenth\",function(){",
+							"    var jsonData=pm.response.json();",
+							"    var size=pm.globals.get(\"g_size\");",
+							"    pm.expect(jsonData.length).to.eql(size);",
+							"   ",
+							"})"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://{{ip}}:{{port}}/catalogue",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"catalogue"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "check specific catalogue: /catalogue/<id>",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "df2e41a3-a927-4b3a-8557-24de5c841de2",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"check the catalouge content\",function(){",
+							"    var jsonData=pm.response.json();",
+							"    pm.expect(jsonData.id).to.eql('03fef6ac-1896-4ce8-bd69-b798f85c6e0b');",
+							"    pm.expect(jsonData.name).to.eql('Holy');",
+							"    pm.expect(jsonData.price).to.eql(99.99);",
+							"    pm.expect(jsonData.count).to.eql(222);",
+							"    pm.expect(jsonData.imageUrl[0]).to.eql('/catalogue/images/holy_1.jpeg');",
+							"    pm.expect(jsonData.imageUrl[1]).to.eql('/catalogue/images/holy_2.jpeg');",
+							"    pm.expect(jsonData.tag[0]).to.eql('magic');",
+							"    pm.expect(jsonData.tag[1]).to.eql('action');",
+							"    pm.expect(jsonData.description).to.eql('Socks fit for a Messiah. You too can experience walking in water with these special edition beauties. Each hole is lovingly proggled to leave smooth edges. The only sock approved by a higher power.');",
+							"})"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://{{ip}}:{{port}}/catalogue/03fef6ac-1896-4ce8-bd69-b798f85c6e0b",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"catalogue",
+						"03fef6ac-1896-4ce8-bd69-b798f85c6e0b"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "check the tags: /tags",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "7928fbd4-b4fd-4d35-8c3a-242e0dfee0a1",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"check the tags array\",function(){",
+							"    var jsonData=pm.response.json();",
+							"    var array=[\"brown\",",
+							"        \"geek\",",
+							"        \"formal\",",
+							"        \"blue\",",
+							"        \"skin\",",
+							"        \"red\",",
+							"        \"action\",",
+							"        \"sport\",",
+							"        \"black\",",
+							"        \"magic\",",
+							"        \"green\"]",
+							"    //console.log(jsonData.tags)",
+							"     pm.expect(jsonData.tags.sort()).to.eql(array.sort()); ",
+							"     pm.expect(jsonData.err).to.eql(null);",
+							"})"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://{{ip}}:{{port}}/tags",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"tags"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "1a5148e9-9a69-42b7-84d7-6ad376af914e",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "695b01b5-6cec-4b3a-9cfd-d268657647ab",
+				"type": "text/javascript",
+				"exec": [
+					"pm.test(\"response is ok\", function () {",
+					"    pm.response.to.have.status(200);",
+					"});"
+				]
+			}
+		}
+	]
+}

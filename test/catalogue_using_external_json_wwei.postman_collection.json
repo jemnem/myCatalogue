@@ -1,0 +1,130 @@
+{
+	"info": {
+		"_postman_id": "ecdeb71c-0424-47a0-b410-840f582c00e0",
+		"name": "catalogue_using_external_json_wwei",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "check specific catalogue content: /catalogue/<id>",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b240067f-8501-41a5-a010-7edabac31010",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"check the catalouge content\",function(){",
+							"    var jsonData=pm.response.json();",
+							"    pm.expect(jsonData.id).to.eql(data.id);",
+							"    pm.expect(jsonData.name).to.eql(data.name);",
+							"    pm.expect(jsonData.price).to.eql(data.price);",
+							"    pm.expect(jsonData.count).to.eql(data.count);",
+							"    pm.expect(jsonData.imageUrl).to.eql(data.imageUrl);",
+							"    pm.expect(jsonData.description).to.eql(data.description);",
+							"    //the values in tag might be returned in different sequence each time, using sort() to ensure the same sequence ",
+							"    pm.expect(jsonData.tag.sort()).to.eql(data.tag.sort());",
+							"    })",
+							"    "
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://{{ip}}:{{port}}/catalogue/{{id}}",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"catalogue",
+						"{{id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "check catalogue content: /catalogue",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1d433b7d-eefc-4e7c-b54d-f3db5db650af",
+						"type": "text/javascript",
+						"exec": [
+							" pm.test(\"check the catalouge content\",function(){",
+							"    var jsonData=pm.response.json();",
+							"    var length=jsonData.length;",
+							"    console.log(jsonData);",
+							"    for (var index=0;index<length;index++){",
+							"       jData=jsonData[index];",
+							"       //console.log(jData);",
+							"       if (jData.id == data.id){",
+							"         pm.expect(jData.name).to.eql(data.name);",
+							"         pm.expect(jData.price).to.eql(data.price);",
+							"         pm.expect(jData.count).to.eql(data.count);",
+							"         pm.expect(jData.imageUrl).to.eql(data.imageUrl);",
+							"         pm.expect(jData.description).to.eql(data.description);",
+							"         //the values in tag might be returned in different sequence each time, using sort() to ensure the same sequence ",
+							"         pm.expect(jData.tag.sort()).to.eql(data.tag.sort());",
+							"         return;",
+							"       }",
+							"    }",
+							"    pm.expect(1).to.eql(2);",
+							" })",
+							"        ",
+							"    "
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://{{ip}}:{{port}}/catalogue",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"catalogue"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "1a5148e9-9a69-42b7-84d7-6ad376af914e",
+				"type": "text/javascript",
+				"exec": [
+					"pm.test(\"response is ok\", function () {",
+					"    pm.response.to.have.status(200);",
+					"});"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "695b01b5-6cec-4b3a-9cfd-d268657647ab",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
