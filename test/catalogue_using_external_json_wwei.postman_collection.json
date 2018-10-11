@@ -1,10 +1,66 @@
 {
 	"info": {
-		"_postman_id": "ecdeb71c-0424-47a0-b410-840f582c00e0",
+		"_postman_id": "1151290d-0aea-40fb-8dba-ada5a98e5782",
 		"name": "catalogue_using_external_json_wwei",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
+		{
+			"name": "check catalogue content: /catalogue",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "7bd1ace1-1b59-4477-a47b-be825051f0c7",
+						"type": "text/javascript",
+						"exec": [
+							" pm.test(\"check the catalouge content\",function(){",
+							"    var jsonData=pm.response.json();",
+							"    var length=jsonData.length;",
+							"    //console.log(jsonData);",
+							"    for (var index=0;index<length;index++){",
+							"       jData=jsonData[index];",
+							"       //console.log(jData);",
+							"       if (jData.id == data.id){",
+							"         pm.expect(jData.name).to.eql(data.name);",
+							"         pm.expect(jData.price).to.eql(data.price);",
+							"         pm.expect(jData.count).to.eql(data.count);",
+							"         pm.expect(jData.imageUrl).to.eql(data.imageUrl);",
+							"         pm.expect(jData.description).to.eql(data.description);",
+							"         //the values in tag might be returned in different sequence each time, using sort() to ensure the same sequence ",
+							"         pm.expect(jData.tag.sort()).to.eql(data.tag.sort());",
+							"         //return;",
+							"       }",
+							"    }",
+							"    pm.expect(2).to.eql(2);",
+							" })",
+							"        ",
+							"    "
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{port}}/catalogue",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"catalogue"
+					]
+				}
+			},
+			"response": []
+		},
 		{
 			"name": "check specific catalogue content: /catalogue/<id>",
 			"event": [
@@ -33,7 +89,10 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {},
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
 				"url": {
 					"raw": "http://{{ip}}:{{port}}/catalogue/{{id}}",
 					"protocol": "http",
@@ -48,59 +107,6 @@
 				}
 			},
 			"response": []
-		},
-		{
-			"name": "check catalogue content: /catalogue",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "1d433b7d-eefc-4e7c-b54d-f3db5db650af",
-						"type": "text/javascript",
-						"exec": [
-							" pm.test(\"check the catalouge content\",function(){",
-							"    var jsonData=pm.response.json();",
-							"    var length=jsonData.length;",
-							"    console.log(jsonData);",
-							"    for (var index=0;index<length;index++){",
-							"       jData=jsonData[index];",
-							"       //console.log(jData);",
-							"       if (jData.id == data.id){",
-							"         pm.expect(jData.name).to.eql(data.name);",
-							"         pm.expect(jData.price).to.eql(data.price);",
-							"         pm.expect(jData.count).to.eql(data.count);",
-							"         pm.expect(jData.imageUrl).to.eql(data.imageUrl);",
-							"         pm.expect(jData.description).to.eql(data.description);",
-							"         //the values in tag might be returned in different sequence each time, using sort() to ensure the same sequence ",
-							"         pm.expect(jData.tag.sort()).to.eql(data.tag.sort());",
-							"         return;",
-							"       }",
-							"    }",
-							"    pm.expect(1).to.eql(2);",
-							" })",
-							"        ",
-							"    "
-						]
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [],
-				"body": {},
-				"url": {
-					"raw": "http://{{ip}}:{{port}}/catalogue",
-					"protocol": "http",
-					"host": [
-						"{{ip}}"
-					],
-					"port": "{{port}}",
-					"path": [
-						"catalogue"
-					]
-				}
-			},
-			"response": []
 		}
 	],
 	"event": [
@@ -110,9 +116,7 @@
 				"id": "1a5148e9-9a69-42b7-84d7-6ad376af914e",
 				"type": "text/javascript",
 				"exec": [
-					"pm.test(\"response is ok\", function () {",
-					"    pm.response.to.have.status(200);",
-					"});"
+					""
 				]
 			}
 		},
