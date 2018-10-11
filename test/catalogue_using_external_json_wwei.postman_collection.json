@@ -12,7 +12,6 @@
 					"listen": "test",
 					"script": {
 						"id": "7bd1ace1-1b59-4477-a47b-be825051f0c7",
-						"type": "text/javascript",
 						"exec": [
 							" pm.test(\"check the catalouge content\",function(){",
 							"    var jsonData=pm.response.json();",
@@ -29,14 +28,15 @@
 							"         pm.expect(jData.description).to.eql(data.description);",
 							"         //the values in tag might be returned in different sequence each time, using sort() to ensure the same sequence ",
 							"         pm.expect(jData.tag.sort()).to.eql(data.tag.sort());",
-							"         //return;",
+							"         return;",
 							"       }",
 							"    }",
-							"    pm.expect(2).to.eql(2);",
+							"    pm.expect(1).to.eql(2);",
 							" })",
 							"        ",
 							"    "
-						]
+						],
+						"type": "text/javascript"
 					}
 				}
 			],
