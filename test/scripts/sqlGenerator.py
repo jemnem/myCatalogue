@@ -1,11 +1,12 @@
 import json
 tags = []
+temp_tags = []
 infile = open('data/sock.json', 'r')
 data = json.load(infile, encoding='UTF-8')
 infile.close()
 fp = open("data/dump1.sql", 'w')
 fp.truncate()
-temp_tags = []
+# loop to insert values into sock table
 for sock in data:
     sid = sock['id']
     name = sock['name']
@@ -16,11 +17,15 @@ for sock in data:
     url2 = sock['imageUrl'][1]
     temp_tags = temp_tags+sock['tag']
     fp.write("INSERT INTO sock VALUES (\""+sid+"\",\""+name+"\",\""+desc+"\","+price+","+count+",\""+url1+"\","+"\""+url2+"\");"+'\n')
+# remove duplicated tag
 for tag in temp_tags:
     if tag not in tags:
         tags.append(tag)
+# loop to insert tag values into tag table
 for tag in tags:
     fp.write("INSERT INTO tag(name) VALUES (\"" + tag + "\");" + '\n')
+
+# loop to insert values into sock_tag table
 for sock in data:
     sid=sock['id']
     for tag in sock['tag']:
