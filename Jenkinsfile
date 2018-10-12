@@ -19,7 +19,7 @@ node ('api-test') {
         try {
             sh 'docker run -v ${PWD}/test:/etc/newman -t postman/newman_ubuntu1404 run postman/catalogue.postman_collection.json -e postman/catalogue.postman_environment.json --color off'
             sh 'docker run -v ${PWD}/test:/etc/newman -t postman/newman_ubuntu1404 run postman/catalogue_wwei.postman_collection.json -e postman/catalogue.postman_environment.json --color off'
-            sh 'docker run -v ${PWD}/test:/etc/newman -t postman/newman_ubuntu1404 run postman/catalogue_using_external_json_wwei.postman_collection.json -e postman/catalogue.postman_environment.json -d data/sock.json -n 10 --color off'
+            sh 'docker run -v ${PWD}/test:/etc/newman -t postman/newman_ubuntu1404 run postman/catalogue_using_external_json_wwei.postman_collection.json -e postman/catalogue.postman_environment.json -d scripts/data/sock.json -n 10 --color off'
         }
         catch (e) {
             echo 'rollback the service to the last good one'
