@@ -17,7 +17,7 @@ for sock in data:
     url2 = sock['imageUrl'][1]
     temp_tags = temp_tags+sock['tag']
     fp.write("INSERT INTO sock VALUES (\""+sid+"\",\""+name+"\",\""+desc+"\","+price+","+count+",\""+url1+"\","+"\""+url2+"\");"+'\n')
-# remove duplicated tag
+# remove duplicated tag from temp_tags array
 for tag in temp_tags:
     if tag not in tags:
         tags.append(tag)
