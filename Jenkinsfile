@@ -9,7 +9,7 @@ node ('api-test') {
         sh 'docker pull python'
         sh 'docker run -v ${PWD}/test:/usr/src/test  -w /usr/src/test/scripts python python util.py sql_generation'
         def size = sh 'docker run -v ${PWD}/test:/usr/src/test  -w /usr/src/test/scripts python python util.py get_size'
-        echo $size
+        echo ${size}
         sh 'cp ${PWD}/test/scripts/data/dump1.sql ${PWD}/docker/catalogue-db/data/'
         sh 'docker-compose build'
         sh 'docker-compose up -d'
