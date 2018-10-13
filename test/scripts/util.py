@@ -7,7 +7,7 @@ class Util:
         infile = open(infile_path, 'r')
         data = json.load(infile, encoding='UTF-8')
         infile.close()
-        print(len(data))
+        return len(data)
 
     def set_size(self):
         infile_path = '../postman/catalogue_environment.json'
