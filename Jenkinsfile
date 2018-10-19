@@ -6,7 +6,6 @@ node ('api-test') {
         echo 'start deploying...'
         sh 'docker-compose stop'
         sh 'docker-compose rm -f'
-        sh 'docker pull python'
         sh 'docker run -v ${PWD}/test:/usr/src/test  -w /usr/src/test/scripts python python util.py set_sql'
         def size = sh 'docker run -v ${PWD}/test:/usr/src/test  -w /usr/src/test/scripts python python util.py get_size'
         echo "${size}"
@@ -17,7 +16,6 @@ node ('api-test') {
     }
     stage('Test') {
         echo ' start testing...'
-        sh 'docker pull postman/newman_ubuntu1404'
         try {
             sh 'docker run -v ${PWD}/test:/etc/newman -t postman/newman_ubuntu1404 run postman/catalogue.postman_collection.json -e postman/catalogue_environment.json --color off'
             sh 'docker run -v ${PWD}/test:/etc/newman -t postman/newman_ubuntu1404 run postman/catalogue_wwei.postman_collection.json -e postman/catalogue_environment.json --color off'
