@@ -7,8 +7,8 @@ node ('api-test') {
         sh 'docker-compose stop'
         sh 'docker-compose rm -f'
         sh 'docker run -v ${PWD}/test:/usr/src/test  -w /usr/src/test/scripts python python util.py set_sql'
-        def size = sh 'docker run -v ${PWD}/test:/usr/src/test  -w /usr/src/test/scripts python python util.py get_size'
-        echo "${size}"
+        def size = sh 'python util.py get_size'
+        echo ${size}
         sh 'cp ${PWD}/test/scripts/data/dump1.sql ${PWD}/docker/catalogue-db/data/'
         sh 'docker-compose build'
         sh 'docker-compose up -d'
