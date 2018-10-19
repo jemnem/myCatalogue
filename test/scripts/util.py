@@ -7,7 +7,7 @@ class Util:
         infile = open(infile_path, 'r')
         data = json.load(infile, encoding='UTF-8')
         infile.close()
-        return len(data)
+        print(len(data))
 
     def set_size(self):
         infile_path = '../postman/catalogue_environment.json'
@@ -23,7 +23,7 @@ class Util:
         outfile.write(json.dumps(data))
         outfile.close()
 
-    def sql_generation(self):
+    def set_sql(self):
         tags = []
         temp_tags = []
         infile_path = 'data/sock.json'
