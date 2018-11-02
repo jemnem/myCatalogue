@@ -12,7 +12,6 @@
 					"listen": "test",
 					"script": {
 						"id": "f3650eb0-2ad9-46c0-93cc-2013a1ffcf87",
-						"type": "text/javascript",
 						"exec": [
 							"pm.test(\"check the health\",function(){",
 							"    var jsonData=pm.response.json();",
@@ -20,15 +19,147 @@
 							"    pm.expect(jsonData.health[1].status).to.eql(\"OK\");",
 							"    ",
 							"})",
+							"",
+							"",
 							""
-						]
+						],
+						"type": "text/javascript"
 					}
 				}
 			],
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {},
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{port}}/health",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"health"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "404 pages",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "06e5cf68-96eb-4638-82fb-4a6e007d1e61",
+						"exec": [
+							"ip=pm.environment.get(\"ip\");",
+							"port=pm.environment.get(\"port\");",
+							"var urls=new Array();",
+							"urls[0]=\"http://\"+ip+\":\"+port+\"/catalogue1\";",
+							"urls[1]=\"http://\"+ip+\":\"+port+\"/catalogue/abc\";",
+							"",
+							"const requests=[",
+							"    {\"url\":\"http://\"+ip+\":\"+port+\"/catalogue1\", \"method\": \"GET\"}, ",
+							"    {\"url\":\"http://\"+ip+\":\"+port+\"/catalogue/size/1\", \"method\": \"GET\"}",
+							"]",
+							"",
+							"var len=requests.length",
+							"",
+							"",
+							"for (var i=0;i<len;i++){",
+							"    pm.sendRequest(requests[i], function (err, res) {",
+							"        if (err) { console.log(res); }",
+							"        pm.test('check 404 page', function () {",
+							"        pm.expect(err).to.equal(null);",
+							"        pm.expect(res).to.have.property('code', 404);",
+							"        pm.expect(res).to.have.property('status', \"Not Found\");",
+							"  });",
+							"});",
+							"}",
+							"",
+							"   ",
+							"",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{port}}/health",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"health"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "500 pages",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "06e5cf68-96eb-4638-82fb-4a6e007d1e61",
+						"exec": [
+							"ip=pm.environment.get(\"ip\");",
+							"port=pm.environment.get(\"port\");",
+							"var urls=new Array();",
+							"urls[0]=\"http://\"+ip+\":\"+port+\"/catalogue1\";",
+							"urls[1]=\"http://\"+ip+\":\"+port+\"/catalogue/abc\";",
+							"",
+							"const requests=[",
+							"    {\"url\":\"http://\"+ip+\":\"+port+\"/catalogue/abc\", \"method\": \"GET\"}",
+							"]",
+							"",
+							"var len=requests.length",
+							"",
+							"",
+							"for (var i=0;i<len;i++){",
+							"    pm.sendRequest(requests[i], function (err, res) {",
+							"        if (err) { console.log(res); }",
+							"        pm.test('check 500 page', function () {",
+							"        pm.expect(err).to.equal(null);",
+							"        pm.expect(res).to.have.property('code', 500);",
+							"        pm.expect(res).to.have.property('status', \"Internal Server Error\");",
+							"  });",
+							"});",
+							"}",
+							"",
+							"",
+							"   ",
+							"",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
 				"url": {
 					"raw": "http://{{ip}}:{{port}}/health",
 					"protocol": "http",
@@ -50,23 +181,50 @@
 					"listen": "test",
 					"script": {
 						"id": "eeb7fdc6-1747-46f5-8dae-3c7c1ab27298",
-						"type": "text/javascript",
 						"exec": [
+							"var schema = {",
+							"  \"$schema\": \"http://json-schema.org/draft-04/schema#\",",
+							"  \"type\": \"object\",",
+							"  \"properties\": {",
+							"    \"size\": {",
+							"      \"type\": \"integer\"",
+							"    },",
+							"    \"err\": {",
+							"      \"type\": \"null\"",
+							"    }",
+							"  },",
+							"  \"required\": [",
+							"    \"size\",",
+							"    \"err\"",
+							"  ]",
+							"}",
+							"",
+							"pm.test(\"check the schema\",function(){",
+							"    var jsonData=pm.response.json();",
+							"    pm.expect(tv4.validate(jsonData, schema)).to.be.true",
+							"});",
+							"",
 							"pm.test(\"check the tags array\",function(){",
 							"    var jsonData=pm.response.json();",
 							"    pm.expect(jsonData.size).to.eql(10); ",
 							"    pm.expect(jsonData.err).to.eql(null);",
 							"    pm.globals.unset(\"g_size\");",
 							"    pm.globals.set(\"g_size\",jsonData.size)",
-							"})"
-						]
+							"})",
+							"",
+							""
+						],
+						"type": "text/javascript"
 					}
 				}
 			],
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {},
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
 				"url": {
 					"raw": "http://{{ip}}:{{port}}/catalogue/size",
 					"protocol": "http",
@@ -89,22 +247,88 @@
 					"listen": "test",
 					"script": {
 						"id": "5a34f3ce-0f58-40c8-ad9e-822851e21a27",
-						"type": "text/javascript",
 						"exec": [
+							"var schema={",
+							"  \"$schema\": \"http://json-schema.org/draft-04/schema#\",",
+							"  \"type\": \"array\",",
+							"  \"items\": [",
+							"    {",
+							"      \"type\": \"object\",",
+							"      \"properties\": {",
+							"        \"id\": {",
+							"          \"type\": \"string\"",
+							"        },",
+							"        \"name\": {",
+							"          \"type\": \"string\"",
+							"        },",
+							"        \"description\": {",
+							"          \"type\": \"string\"",
+							"        },",
+							"        \"imageUrl\": {",
+							"          \"type\": \"array\",",
+							"          \"items\": [",
+							"            {",
+							"              \"type\": \"string\"",
+							"            },",
+							"            {",
+							"              \"type\": \"string\"",
+							"            }",
+							"          ]",
+							"        },",
+							"        \"price\": {",
+							"          \"type\": \"number\"",
+							"        },",
+							"        \"count\": {",
+							"          \"type\": \"integer\"",
+							"        },",
+							"        \"tag\": {",
+							"          \"type\": \"array\",",
+							"          \"items\": [",
+							"            {",
+							"              \"type\": \"string\"",
+							"            },",
+							"            {",
+							"              \"type\": \"string\"",
+							"            }",
+							"          ]",
+							"        }",
+							"      },",
+							"      \"required\": [",
+							"        \"id\",",
+							"        \"name\",",
+							"        \"description\",",
+							"        \"imageUrl\",",
+							"        \"price\",",
+							"        \"count\",",
+							"        \"tag\"",
+							"      ]",
+							"    }",
+							"  ]",
+							"}",
+							"",
+							"pm.test(\"check the schema\",function(){",
+							"    var jsonData=pm.response.json();",
+							"    pm.expect(tv4.validate(jsonData, schema)).to.be.true",
+							"});",
+							"",
 							"pm.test(\"check the catalouge array lenth\",function(){",
 							"    var jsonData=pm.response.json();",
 							"    var size=pm.globals.get(\"g_size\");",
 							"    pm.expect(jsonData.length).to.eql(size);",
 							"   ",
 							"})"
-						]
+						],
+						"type": "text/javascript"
 					}
 				}
 			],
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {},
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
 				"url": {
 					"raw": "http://{{ip}}:{{port}}/catalogue",
 					"protocol": "http",
@@ -126,7 +350,6 @@
 					"listen": "test",
 					"script": {
 						"id": "df2e41a3-a927-4b3a-8557-24de5c841de2",
-						"type": "text/javascript",
 						"exec": [
 							"pm.test(\"check the catalouge content\",function(){",
 							"    var jsonData=pm.response.json();",
@@ -139,15 +362,42 @@
 							"    pm.expect(jsonData.tag[0]).to.eql('magic');",
 							"    pm.expect(jsonData.tag[1]).to.eql('action');",
 							"    pm.expect(jsonData.description).to.eql('Socks fit for a Messiah. You too can experience walking in water with these special edition beauties. Each hole is lovingly proggled to leave smooth edges. The only sock approved by a higher power.');",
-							"})"
-						]
+							"})",
+							"",
+							"ip=pm.environment.get(\"ip\");",
+							"port=pm.environment.get(\"port\");",
+							"",
+							"const requests=[",
+							"    {\"url\":\"http://\"+ip+\":\"+port+\"/catalogue/images/holy_1.jpeg\", \"method\": \"GET\"}, ",
+							"    {\"url\":\"http://\"+ip+\":\"+port+\"/catalogue/images/holy_2.jpeg\", \"method\": \"GET\"}",
+							"]",
+							"",
+							"var len=requests.length",
+							"",
+							"",
+							"for (var i=0;i<len;i++){",
+							"    pm.sendRequest(requests[i], function (err, res) {",
+							"        if (err) { console.log(res); }",
+							"        pm.test('check the availability of image url', function () {",
+							"        pm.expect(err).to.equal(null);",
+							"        pm.expect(res).to.have.property('code', 200);",
+							"        pm.expect(res).to.have.property('status', \"OK\");",
+							"  });",
+							"});",
+							"}",
+							""
+						],
+						"type": "text/javascript"
 					}
 				}
 			],
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {},
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
 				"url": {
 					"raw": "http://{{ip}}:{{port}}/catalogue/03fef6ac-1896-4ce8-bd69-b798f85c6e0b",
 					"protocol": "http",
@@ -170,7 +420,6 @@
 					"listen": "test",
 					"script": {
 						"id": "7928fbd4-b4fd-4d35-8c3a-242e0dfee0a1",
-						"type": "text/javascript",
 						"exec": [
 							"pm.test(\"check the tags array\",function(){",
 							"    var jsonData=pm.response.json();",
@@ -189,14 +438,18 @@
 							"     pm.expect(jsonData.tags.sort()).to.eql(array.sort()); ",
 							"     pm.expect(jsonData.err).to.eql(null);",
 							"})"
-						]
+						],
+						"type": "text/javascript"
 					}
 				}
 			],
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {},
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
 				"url": {
 					"raw": "http://{{ip}}:{{port}}/tags",
 					"protocol": "http",
